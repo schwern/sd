@@ -59,23 +59,6 @@ sub resolve_user_id_to_email {
 
 memoize 'resolve_user_id_to_email';
 
-=head2 warp_list_to_old_value CURRENT_VALUE, ADD, DEL
-
-Both RT and Hiveminder use this, but what's it actually for?
-
-=cut
-
-sub warp_list_to_old_value {
-    my $self         = shift;
-    my $current_value = shift ||'';
-    my $add          = shift;
-    my $del          = shift;
-
-    my @new = grep { defined } split( /\s*,\s*/, $current_value );
-    my @old = (grep { defined $_ && $_ ne $add } @new, $del ) || ();
-    return join( ", ", @old );
-}
-
 =head2 find_matching_tickets QUERY
 
 =cut

@@ -5,7 +5,7 @@ use Params::Validate;
 use Path::Class;
 
 has sync_source => 
-    ( isa => 'App::SD::Replica::Debbugs',
+    ( isa => 'App::SD::Replica::debbugs',
       is => 'rw');
 
 =head2 integrate_change L<Prophet::Change>, L<Prophet::ChangeSet>

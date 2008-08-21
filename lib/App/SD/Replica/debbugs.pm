@@ -1,6 +1,6 @@
 package App::SD::Replica::debbugs;
 use Moose;
-extends qw/Prophet::ForeignReplica/;
+extends qw/App::SD::ForeignReplica/;
 
 use Params::Validate qw(:all);
 use Memoize;
@@ -11,7 +11,7 @@ use constant scheme => 'debbugs';
 
 # FIXME: what should this actually be?
 has debbugs => ( isa => 'Net::Debbugs', is => 'rw');
-has debbugs_url => ( isa => 'Str', is => 'rw');
+has remote_url => ( isa => 'Str', is => 'rw');
 has debbugs_query => ( isa => 'Str', is => 'rw');
 
 sub setup {
@@ -25,35 +25,9 @@ sub setup {
     # ...
 }
 
-sub prophet_has_seen_transaction {
-    goto \&App::SD::Replica::RT::prophet_has_seen_transaction;
-}
-
-sub record_pushed_transaction {
-    goto \&App::SD::Replica::RT::record_pushed_transaction;
-}
-
 sub record_pushed_transactions {}
 
-sub remote_id_for_uuid {
-    my ( $self, $uuid_for_remote_id ) = @_;
-
-
-    # XXX: should not access CLI handle
-    my $ticket = Prophet::Record->new(
-        handle => Prophet::CLI->new->app_handle->handle,
-        type   => 'ticket'
-    );
-    $ticket->load( uuid => $uuid_for_remote_id );
-    my $id =  $ticket->prop( $self->uuid . '-id' );
-    return $id;
-}
-
-sub uuid_for_remote_id {
-    my ( $self, $id ) = @_;
-    return $self->_lookup_uuid_for_remote_id($id) ||
-        $self->uuid_for_url( $self->remote_url . "/ticket/$id" );
-}
+# XXX record_pushed_tikcet should go up to the base class
 
 sub record_pushed_ticket {
     my $self = shift;
