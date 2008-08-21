@@ -5,7 +5,7 @@ use Params::Validate qw(:all);
 use Memoize;
 
 has sync_source => (
-    isa => 'App::SD::Replica::Debbugs',
+    isa => 'App::SD::Replica::debbugs',
     is => 'rw',
 );
 

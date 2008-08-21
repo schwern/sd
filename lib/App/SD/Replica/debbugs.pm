@@ -52,7 +52,7 @@ sub remote_id_for_uuid {
 sub uuid_for_remote_id {
     my ( $self, $id ) = @_;
     return $self->_lookup_uuid_for_remote_id($id) ||
-        $self->uuid_for_url( $self->rt_url . "/ticket/$id" );
+        $self->uuid_for_url( $self->remote_url . "/ticket/$id" );
 }
 
 sub record_pushed_ticket {
